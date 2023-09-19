@@ -9,7 +9,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.laughter.joke.api.JokesClient;
-import com.laughter.joke.domain.Joke;
+import com.laughter.joke.domain.ChuckNorrisJoke;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +35,7 @@ class JokesClientTests {
   private JokesClient jokesClient;
 
   private MockRestServiceServer mockServer;
-  private ObjectMapper mapper = new ObjectMapper();
+  private final ObjectMapper mapper = new ObjectMapper();
 
   @BeforeEach
   public void init() {
@@ -49,9 +49,9 @@ class JokesClientTests {
         .andExpect(method(HttpMethod.GET))
         .andRespond(withStatus(HttpStatus.OK)
             .contentType(MediaType.APPLICATION_JSON)
-            .body(mapper.writeValueAsString(Joke.builder().value("Funny joke.").build())));
+            .body(mapper.writeValueAsString(ChuckNorrisJoke.builder().value("Funny joke.").build())));
 
-    Joke result = jokesClient.findRandomJoke();
+    ChuckNorrisJoke result = jokesClient.findRandomJoke();
 
     assertNotNull(result);
     assertEquals("Funny joke.", result.getValue());

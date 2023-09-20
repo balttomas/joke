@@ -1,38 +1,38 @@
-#Joke proxy
-###Stack used
+# Joke proxy
+### Stack used
 
 `
 Java 17, Spring Boot, FeignClient, JUnit5, Cucumber, SwaggerUI
 `
 
-###Build the project
+### Build the project
 ```
 mvn clean package
 ```
-###Run
+### Run
 ```
  mvn spring-boot:start
 ```
-###Dockerize
-####Build
+### Dockerize
+#### Build
 ```
 docker build --build-arg JAR_FILE=target/*.jar -t jokes/point .
 ```
-####Run
+#### Run
 ```
 docker run -p 8080:8080 jokes/point
 ```
 
-##API
-###SwaggerUI
+## API
+### SwaggerUI
 ```
 http://localhost:8080
 ```
-###Find random Chuck Norris joke:
+### Find random Chuck Norris joke:
 ```
 curl --location 'localhost:8080/jokes/random'
 ```
-####sample output:
+#### sample output:
 ```
 {
 "categories": [],
@@ -42,11 +42,11 @@ curl --location 'localhost:8080/jokes/random'
 "value": "When Chuck Norris was younger he was excited when he began growing chest hair. All the other boys in his 1st grade class were jealous."
 }
 ```
-###Find random Chuck Norris joke by category
+### Find random Chuck Norris joke by category
 ```
 curl --location 'localhost:8080/jokes/random/explicit'
 ```
-####sample output:
+#### sample output:
 ```
 {
     "categories": [
@@ -58,11 +58,11 @@ curl --location 'localhost:8080/jokes/random/explicit'
     "value": "Chuck Norris recently appeared in a special episode of \"Behind The Beard\" to talk about his life, acting career, his epic sexual virility, his boots, beer, his current kill count (rounded down to the nearest thousand), martial arts, death, whiskey and his penis."
 }
 ```
-###Search for Chuck Norris jokes by query:
+### Search for Chuck Norris jokes by query:
 ```
 curl --location 'localhost:8080/jokes/search?query=hospital'
 ```
-####sample output:
+#### sample output:
 ```
 {
     "total": 28,
@@ -85,7 +85,7 @@ curl --location 'localhost:8080/jokes/search?query=hospital'
         ...
         left omitted in the sample
 ```
-##TODO
+## TODO
 * Ability to limit/paginate jokes when querying
 * Human-readable exceptions
 * Extract only 'value' from response - exactly what end-user requires

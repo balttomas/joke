@@ -6,6 +6,7 @@ Java 17, Spring Boot, FeignClient, JUnit5, Cucumber, SwaggerUI
 `
 
 ### Build the project
+by default runs all tests including cucumber
 ```
 mvn clean package
 ```

@@ -1,5 +1,6 @@
 package com.laughter.joke.api;
 
+import com.laughter.joke.api.norris.ChuckNorrisClient;
 import com.laughter.joke.domain.ChuckNorrisJoke;
 import com.laughter.joke.domain.ManyChuckNorrisJokes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,21 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class JokesRetriever {
 
   @Autowired
-  private BaseApi<ChuckNorrisJoke, ManyChuckNorrisJokes> ChuckNorrisClient;
+  private ChuckNorrisClient chuckNorrisClient;
 
   @GetMapping(value = "/random")
   public ChuckNorrisJoke findJoke() {
-    return ChuckNorrisClient.findRandomJoke();
+    return chuckNorrisClient.findRandomJoke();
   }
 
   @GetMapping(value = "/random/{category}")
   public ChuckNorrisJoke findJokeByCategory(@PathVariable("category") String category) {
-    return ChuckNorrisClient.findRandomJokeByCategory(category);
+    return chuckNorrisClient.findRandomJokeByCategory(category);
   }
 
   @GetMapping(value = "/search")
   public ManyChuckNorrisJokes findJokesByQuery(@RequestParam("query") String query) {
-    return ChuckNorrisClient.findManyJokes(query);
+    return chuckNorrisClient.findManyJokes(query);
   }
 
 }

@@ -1,4 +1,6 @@
 # Joke proxy
+Returns jokes from thirdparty remote API.
+
 ### Stack used
 
 `

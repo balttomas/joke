@@ -2,6 +2,7 @@ package com.laughter.joke.api;
 
 import com.laughter.joke.domain.ChuckNorrisJoke;
 import com.laughter.joke.domain.Joke;
+import com.laughter.joke.domain.ManyChuckNorrisJokes;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -28,8 +29,8 @@ public class JokesRetriever {
     return chuckNorrisProxyClient.findRandomJokeByCategory(category);
   }
 
-  @GetMapping(value = "/search?query={query}")
-  public List<? extends Joke> findJokesByQuery(@RequestParam("query") String query) {
+  @GetMapping(value = "/search")
+  public ManyChuckNorrisJokes findJokesByQuery(@RequestParam("query") String query) {
     return chuckNorrisProxyClient.findJokesByQuery(query);
   }
 

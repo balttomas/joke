@@ -1,6 +1,7 @@
 package com.laughter.joke.api.norris;
 
 import com.laughter.joke.domain.ChuckNorrisJoke;
+import com.laughter.joke.domain.ManyChuckNorrisJokes;
 import java.util.List;
 
 /**
@@ -20,14 +21,17 @@ public class ChuckNorrisClientFallback implements ChuckNorrisClient {
   public ChuckNorrisJoke findRandomJokeByCategory(String category) {
     return ChuckNorrisJoke.builder()
         .value(String.format("We can't retrieve any joke but here it is some local joke "
-                + "from category %s for you!", category))
+            + "from category %s for you!", category))
         .build();
   }
 
   @Override
-  public List<ChuckNorrisJoke> findJokesByQuery(String query) {
-    return List.of(ChuckNorrisJoke.builder()
-        .value("Jokes generate vitamin C.")
-        .build());
+  public ManyChuckNorrisJokes findJokesByQuery(String query) {
+    return ManyChuckNorrisJokes.builder().result(
+        List.of(ChuckNorrisJoke.builder()
+            .value("Jokes generate vitamin C.")
+            .build())
+    ).build();
+
   }
 }

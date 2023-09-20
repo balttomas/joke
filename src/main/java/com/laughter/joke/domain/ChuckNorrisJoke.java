@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChuckNorrisJoke implements Joke {
 
+  private String[] categories;
   private String icon_url;
   private String id;
   private String url;

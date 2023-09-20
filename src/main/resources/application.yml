@@ -14,6 +14,9 @@ feign:
         connectTimeout: 4000
         readTimeout: 4000
         loggerLevel: FULL
+  autoconfiguration:
+    jackson:
+      enabled: true
 
 logging:
   level:

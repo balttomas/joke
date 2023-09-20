@@ -84,4 +84,15 @@ public class NorrisStepDefinition {
     assertThat(responseCategory).isEqualTo(expectedCategory);
   }
 
+  @And("^response contains multiple jokes")
+  public void response_contains_multiple_jokes() throws JsonProcessingException, JSONException {
+    assertThat(response).isNotNull();
+    assertThat(response.body()).isNotBlank();
+
+    JSONObject json = new JSONObject(response.body());
+    int amount = json.getInt("total");
+    JSONArray jokeValues = json.getJSONArray("result");
+
+    assertThat(amount).isEqualTo(jokeValues.length());
+  }
 }

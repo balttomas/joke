@@ -1,0 +1,20 @@
+chucknorris:
+  jokes:
+    url: https://api.chucknorris.io/jokes
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 4000
+        readTimeout: 4000
+        loggerLevel: FULL
+
+logging:
+  level:
+    com.laughter.joke: DEBUG

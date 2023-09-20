@@ -1,0 +1,10 @@
+chucknorris:
+  jokes:
+    url: http://localhost:9561
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 1000
+        readTimeout: 1000

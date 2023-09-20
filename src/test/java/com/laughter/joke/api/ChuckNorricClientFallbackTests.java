@@ -32,7 +32,7 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @WireMockTest(httpPort = 9561)
-public class ChuckNorricClientFallbackTest {
+public class ChuckNorricClientFallbackTests {
 
   private static final int EXPECTED_RETRIES = 3;
   private static final int NO_RETRIES_EXPECTED = 1;

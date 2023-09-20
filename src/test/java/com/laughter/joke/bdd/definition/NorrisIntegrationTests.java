@@ -8,6 +8,6 @@ import org.junit.runner.RunWith;
 @CucumberOptions(features = "src/test/resources/norris",
     plugin = {"pretty", "html:target/cucumber/joke.html"},
     extraGlue = "com.laughter.joke.bdd.definition")
-public class NorrisTestExecutor {
+public class NorrisIntegrationTests {
 
 }

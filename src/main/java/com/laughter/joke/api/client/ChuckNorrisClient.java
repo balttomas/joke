@@ -1,4 +1,4 @@
-package com.laughter.joke.api.norris;
+package com.laughter.joke.api.client;
 
 import com.laughter.joke.domain.ChuckNorrisJoke;
 import com.laughter.joke.domain.ManyChuckNorrisJokes;

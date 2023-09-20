@@ -12,7 +12,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import com.laughter.joke.api.norris.ChuckNorrisClient;
+import com.laughter.joke.api.client.ChuckNorrisClient;
 import com.laughter.joke.domain.ChuckNorrisJoke;
 import com.laughter.joke.domain.Joke;
 import feign.FeignException;

@@ -1,6 +1,6 @@
 package com.laughter.joke.api;
 
-import com.laughter.joke.api.norris.ChuckNorrisClient;
+import com.laughter.joke.api.client.ChuckNorrisClient;
 import com.laughter.joke.domain.ChuckNorrisJoke;
 import com.laughter.joke.domain.ManyChuckNorrisJokes;
 import org.springframework.beans.factory.annotation.Autowired;

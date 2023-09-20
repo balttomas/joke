@@ -1,19 +1,10 @@
 package com.laughter.joke.api.config;
 
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import feign.RetryableException;
 import feign.Retryer;
-import feign.codec.Decoder;
 import feign.codec.ErrorDecoder;
 import feign.codec.ErrorDecoder.Default;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
-import org.springframework.cloud.openfeign.support.HttpMessageConverterCustomizer;
-import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
-import org.springframework.cloud.openfeign.support.SpringDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -42,18 +33,5 @@ public class BaseClientApiConfiguration {
   public Retryer retryer() {
     return new Retryer.Default(100L, TimeUnit.SECONDS.toMillis(1L), 3);
   }
-
-/*  @Bean
-  public Decoder customDecoder(ObjectFactory<HttpMessageConverters> objectFactory,
-      ObjectProvider<HttpMessageConverterCustomizer> customizers) {
-    Decoder decoder = (response, type) -> {
-      if (type.getTypeName().equals(org.springframework.core.io.Resource.class.getName())) {
-        return new SpringDecoder(objectFactory, customizers).decode(response, type);
-      }
-      return new JacksonDecoder(List.of(new JavaTimeModule())).decode(response, type);
-    };
-
-    return new ResponseEntityDecoder(decoder);
-  }*/
 
 }

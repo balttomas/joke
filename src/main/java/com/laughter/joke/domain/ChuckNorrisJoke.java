@@ -1,6 +1,7 @@
 package com.laughter.joke.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChuckNorrisJoke implements Joke {
 
-  private String[] categories;
+  private List<String> categories;
   private String icon_url;
   private String id;
   private String url;

@@ -26,7 +26,7 @@ public class ChuckNorrisClientFallback implements ChuckNorrisClient {
   }
 
   @Override
-  public ManyChuckNorrisJokes findJokesByQuery(String query) {
+  public ManyChuckNorrisJokes findManyJokes(String query) {
     return ManyChuckNorrisJokes.builder().result(
         List.of(ChuckNorrisJoke.builder()
             .value("Jokes generate vitamin C.")

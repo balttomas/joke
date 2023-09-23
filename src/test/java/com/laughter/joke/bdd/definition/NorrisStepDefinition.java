@@ -2,11 +2,8 @@ package com.laughter.joke.bdd.definition;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.laughter.joke.JokeApplication;
-import com.laughter.joke.base.Joke;
-import com.laughter.joke.client.norris.NorrisJoke;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
@@ -21,7 +18,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
@@ -59,29 +55,9 @@ public class NorrisStepDefinition {
   }
 
   @And("^response contains joke value")
-  public void response_contains_joke_value() throws JsonProcessingException, JSONException {
+  public void response_contains_joke_value() {
     assertThat(response).isNotNull();
     assertThat(response.body()).isNotBlank();
-
-    JSONObject json = new JSONObject(response.body());
-    String jokeValue = json.getString("value");
-    Joke norrisJoke = mapper.readValue(response.body(), NorrisJoke.class);
-
-    assertThat(norrisJoke).isNotNull();
-    assertThat(norrisJoke.getJokeContent())
-        .isNotNull()
-        .containsExactly(jokeValue);
-  }
-
-  @And("^response is of category (\\w+)")
-  public void response_is_of_expected_category(final String expectedCategory) throws JSONException {
-    JSONObject json = new JSONObject(response.body());
-    JSONArray categories = json.getJSONArray("categories");
-    assertThat(categories).isNotNull();
-    assertThat(categories.length()).isEqualTo(1);
-    String responseCategory = json.getJSONArray("categories").getString(0);
-    assertThat(responseCategory).isNotBlank();
-    assertThat(responseCategory).isEqualTo(expectedCategory);
   }
 
   @And("^response contains multiple jokes")
@@ -89,10 +65,7 @@ public class NorrisStepDefinition {
     assertThat(response).isNotNull();
     assertThat(response.body()).isNotBlank();
 
-    JSONObject json = new JSONObject(response.body());
-    int amount = json.getInt("total");
-    JSONArray jokeValues = json.getJSONArray("result");
-
-    assertThat(amount).isEqualTo(jokeValues.length());
+    JSONArray json = new JSONArray(response.body());
+    assertThat(json.length()).isPositive();
   }
 }

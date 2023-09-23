@@ -1,7 +1,8 @@
 package com.laughter.joke.api;
 
-import com.laughter.joke.base.Joke;
-import com.laughter.joke.client.norris.ChuckNorrisClient;
+import com.laughter.joke.mediator.JokesMediatorApi;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,24 +13,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/jokes", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor
 public class JokesRetriever {
 
   @Autowired
-  private ChuckNorrisClient chuckNorrisClient;
+  private final JokesMediatorApi jokeService;
 
   @GetMapping(value = "/random")
-  public Joke findJoke() {
-    return chuckNorrisClient.findRandomJoke();
+  public String findJoke() {
+    return jokeService.findRandomJoke();
   }
 
   @GetMapping(value = "/random/{category}")
-  public Joke findJokeByCategory(@PathVariable("category") String category) {
-    return chuckNorrisClient.findRandomJokeByCategory(category);
+  public String findJokeByCategory(@PathVariable("category") String category) {
+    return jokeService.findRandomJokeByCategory(category);
   }
 
   @GetMapping(value = "/search")
-  public Joke findJokesByQuery(@RequestParam("query") String query) {
-    return chuckNorrisClient.findManyJokes(query);
+  public List<String> findJokesByQuery(@RequestParam("query") String query) {
+    return jokeService.findManyJokes(query);
   }
 
 }

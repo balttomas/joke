@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.laughter.joke.JokeApplication;
-import com.laughter.joke.domain.ChuckNorrisJoke;
-import com.laughter.joke.domain.Joke;
+import com.laughter.joke.base.Joke;
+import com.laughter.joke.client.norris.NorrisJoke;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
@@ -29,8 +29,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 @SpringBootTest(classes = JokeApplication.class, webEnvironment = WebEnvironment.DEFINED_PORT)
 public class NorrisStepDefinition {
 
-  private String url = "http://localhost:" + "8080";
-
   private HttpResponse<String> response;
 
   private Scenario scenario;
@@ -46,7 +44,7 @@ public class NorrisStepDefinition {
   @When("^client calls GET \"([^\"]+)\"$")
   public void client_calls_jokes_random(final String path)
       throws URISyntaxException, IOException, InterruptedException {
-
+    String url = "http://localhost:" + "8080";
     HttpRequest request = HttpRequest.newBuilder(new URI(url + path))
         .GET()
         .header("Content-Type", "application/json")
@@ -67,10 +65,12 @@ public class NorrisStepDefinition {
 
     JSONObject json = new JSONObject(response.body());
     String jokeValue = json.getString("value");
-    Joke norrisJoke = mapper.readValue(response.body(), ChuckNorrisJoke.class);
+    Joke norrisJoke = mapper.readValue(response.body(), NorrisJoke.class);
 
     assertThat(norrisJoke).isNotNull();
-    assertThat(norrisJoke.getJokeValue()).isEqualTo(jokeValue);
+    assertThat(norrisJoke.getJokeContent())
+        .isNotNull()
+        .containsExactly(jokeValue);
   }
 
   @And("^response is of category (\\w+)")
@@ -85,7 +85,7 @@ public class NorrisStepDefinition {
   }
 
   @And("^response contains multiple jokes")
-  public void response_contains_multiple_jokes() throws JsonProcessingException, JSONException {
+  public void response_contains_multiple_jokes() throws JSONException {
     assertThat(response).isNotNull();
     assertThat(response.body()).isNotBlank();
 

@@ -1,8 +1,7 @@
 package com.laughter.joke.api;
 
-import com.laughter.joke.api.client.ChuckNorrisClient;
-import com.laughter.joke.domain.ChuckNorrisJoke;
-import com.laughter.joke.domain.ManyChuckNorrisJokes;
+import com.laughter.joke.base.Joke;
+import com.laughter.joke.client.norris.ChuckNorrisClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,17 +18,17 @@ public class JokesRetriever {
   private ChuckNorrisClient chuckNorrisClient;
 
   @GetMapping(value = "/random")
-  public ChuckNorrisJoke findJoke() {
+  public Joke findJoke() {
     return chuckNorrisClient.findRandomJoke();
   }
 
   @GetMapping(value = "/random/{category}")
-  public ChuckNorrisJoke findJokeByCategory(@PathVariable("category") String category) {
+  public Joke findJokeByCategory(@PathVariable("category") String category) {
     return chuckNorrisClient.findRandomJokeByCategory(category);
   }
 
   @GetMapping(value = "/search")
-  public ManyChuckNorrisJokes findJokesByQuery(@RequestParam("query") String query) {
+  public Joke findJokesByQuery(@RequestParam("query") String query) {
     return chuckNorrisClient.findManyJokes(query);
   }
 

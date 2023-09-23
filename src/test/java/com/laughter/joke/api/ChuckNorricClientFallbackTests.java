@@ -12,9 +12,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import com.laughter.joke.api.client.ChuckNorrisClient;
-import com.laughter.joke.domain.ChuckNorrisJoke;
-import com.laughter.joke.domain.Joke;
+import com.laughter.joke.client.norris.ChuckNorrisClient;
 import feign.FeignException;
 import feign.RetryableException;
 import java.io.IOException;
@@ -32,7 +30,7 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @WireMockTest(httpPort = 9561)
-public class ChuckNorricClientFallbackTests {
+class ChuckNorricClientFallbackTests {
 
   private static final int EXPECTED_RETRIES = 3;
   private static final int NO_RETRIES_EXPECTED = 1;
@@ -41,20 +39,21 @@ public class ChuckNorricClientFallbackTests {
   @Autowired
   private ChuckNorrisClient chuckNorrisClient;
 
+//  @Disabled("retry mechanism may be applied in upper service layer")
   @Test
-  void shouldRetryAndFinallyFailWhen5XXHappens() {
+  void shouldPropagate5XXToUpperLayer() {
     stubFor(get(urlEqualTo(RANDOM_JOKE_URL))
         .willReturn(aResponse()
             .withStatus(HttpStatus.SERVICE_UNAVAILABLE.value())
         ));
 
-    Assertions.assertThrows(RetryableException.class, () -> chuckNorrisClient.findRandomJoke());
+    Assertions.assertThrows(FeignException.ServiceUnavailable.class, () -> chuckNorrisClient.findRandomJoke());
 
-    verify(exactly(EXPECTED_RETRIES), getRequestedFor(urlEqualTo(RANDOM_JOKE_URL)));
+    verify(exactly(NO_RETRIES_EXPECTED), getRequestedFor(urlEqualTo(RANDOM_JOKE_URL)));
   }
 
   @Test
-  void shouldForwardNon5XXExceptionWithoutRetrying() {
+  void shouldForward4XXExceptionWithoutRetrying() {
     stubFor(get(urlEqualTo(RANDOM_JOKE_URL))
         .willReturn(aResponse()
             .withStatus(HttpStatus.NOT_FOUND.value())
@@ -74,11 +73,14 @@ public class ChuckNorricClientFallbackTests {
             .withBody(parseStub("stubs/successJoke.json"))
         ));
 
-    Joke result = chuckNorrisClient.findRandomJoke();
+    var result = chuckNorrisClient.findRandomJoke();
 
     verify(exactly(NO_RETRIES_EXPECTED), getRequestedFor(urlEqualTo(RANDOM_JOKE_URL)));
     assertThat(result).isNotNull();
-    assertThat(result.getJokeValue()).isEqualTo("Chuck Norris went on a hike up mount...");
+    assertThat(result.getValue())
+        .isNotBlank()
+        .isEqualTo("Chuck Norris went on a hike up mount...");
+    assertThat(result.getJokeContent()).containsExactly(result.getValue());
   }
 
   @Disabled("url constructed: /random?category=dev&category=dev&category=dev")
@@ -94,19 +96,6 @@ public class ChuckNorricClientFallbackTests {
     Assertions.assertThrows(RetryableException.class, () -> chuckNorrisClient.findRandomJokeByCategory("dev"));
 
     verify(exactly(EXPECTED_RETRIES), getRequestedFor(urlEqualTo("/random")).withQueryParam("category", equalTo("dev")));
-  }
-
-  @Disabled("Need to find a way to trigger a fallback when no response from remote jokes provider")
-  @Test
-  void shouldInvokeFallbackWhenNoResponseFromJokesProvider() {
-    stubFor(get(urlEqualTo(RANDOM_JOKE_URL))
-        .willReturn(aResponse()
-            .withStatus(HttpStatus.OK.value())
-            .withFixedDelay(2000)));
-
-    ChuckNorrisJoke result = chuckNorrisClient.findRandomJoke();
-
-    assertThat(result).isNotNull();
   }
 
   private String parseStub(String location) throws IOException {

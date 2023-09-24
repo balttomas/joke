@@ -33,14 +33,6 @@ public class JokeService implements JokesMediatorApi {
   @RateLimiter(name = "jokes")
   public List<String> findManyJokes(String query) {
     List<String> jokes = chuckNorrisClient.findManyJokes(query).getJokeContent();
-
-/*    String lowerCaseQuery = query.toLowerCase();
-    String[] criteria = {" " + lowerCaseQuery, "," + lowerCaseQuery,
-        "?" + lowerCaseQuery, "." + lowerCaseQuery, "!" + lowerCaseQuery};
-    return jokes.stream()
-        .filter(joke -> StringUtils.indexOfAny(joke.toLowerCase(), criteria) > -1)
-        .toList();*/
-
     return jokes.stream().filter(joke -> satisfiesQuery(joke, query)).toList();
 
   }

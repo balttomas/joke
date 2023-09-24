@@ -21,3 +21,12 @@ feign:
 logging:
   level:
     com.laughter.joke: DEBUG
+
+resilience4j.ratelimiter:
+  instances:
+    jokes:
+      limitForPeriod: 5
+      limitRefreshPeriod: 5s
+      timeoutDuration: 10s
+      registerHealthIndicator: true
+      eventConsumerBufferSize: 100

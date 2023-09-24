@@ -1,3 +1,11 @@
+server:
+  port: 8080
+
+management.endpoints.web.exposure.include: '*'
+management.endpoint.health.show-details: always
+management.health.diskspace.enabled: false
+management.health.ratelimiters.enabled: false
+
 chucknorris:
   jokes:
     url: https://api.chucknorris.io/jokes
@@ -11,8 +19,8 @@ feign:
   client:
     config:
       default:
-        connectTimeout: 4000
-        readTimeout: 4000
+        connectTimeout: 10000
+        readTimeout: 10000
         loggerLevel: FULL
   autoconfiguration:
     jackson:
@@ -23,10 +31,14 @@ logging:
     com.laughter.joke: DEBUG
 
 resilience4j.ratelimiter:
-  instances:
-    jokes:
-      limitForPeriod: 5
+  configs:
+    default:
+      limitForPeriod: 2
       limitRefreshPeriod: 5s
-      timeoutDuration: 10s
+      timeoutDuration: 3s
       registerHealthIndicator: true
       eventConsumerBufferSize: 100
+  instances:
+    norris:
+      baseConfig: default
+

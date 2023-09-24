@@ -39,7 +39,6 @@ class ChuckNorricClientFallbackTests {
   @Autowired
   private ChuckNorrisClient chuckNorrisClient;
 
-//  @Disabled("retry mechanism may be applied in upper service layer")
   @Test
   void shouldPropagate5XXToUpperLayer() {
     stubFor(get(urlEqualTo(RANDOM_JOKE_URL))

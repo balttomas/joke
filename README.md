@@ -4,7 +4,7 @@ Returns jokes from thirdparty remote API.
 ### Stack used
 
 `
-Java 17, Spring Boot, FeignClient, JUnit5, Cucumber, SwaggerUI
+Java 17, Spring Boot, FeignClient, Resilience4j, JUnit5, Cucumber, SwaggerUI
 `
 
 ### Build the project
@@ -31,6 +31,16 @@ docker run -p 8080:8080 jokes/point
 ```
 http://localhost:8080
 ```
+##Resilience4j
+###Ratelimiters
+```
+http://localhost:8080/actuator/ratelimiters
+```
+###Ratelimiting events
+```
+http://localhost:8080/actuator/ratelimiterevents
+```
+
 ### Find random Chuck Norris joke:
 ```
 curl --location 'localhost:8080/jokes/random'

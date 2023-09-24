@@ -1,6 +1,6 @@
 package com.laughter.joke.api;
 
-import com.laughter.joke.mediator.JokesMediatorApi;
+import com.laughter.joke.mediator.JokeMediatorApi;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,21 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class JokesRetriever {
 
   @Autowired
-  private final JokesMediatorApi jokeService;
+  private final JokeMediatorApi jokeMediator;
 
   @GetMapping(value = "/random")
   public String findJoke() {
-    return jokeService.findRandomJoke();
+    return jokeMediator.findRandomJoke();
   }
 
   @GetMapping(value = "/random/{category}")
   public String findJokeByCategory(@PathVariable("category") String category) {
-    return jokeService.findRandomJokeByCategory(category);
+    return jokeMediator.findRandomJokeByCategory(category);
   }
 
   @GetMapping(value = "/search")
   public List<String> findJokesByQuery(@RequestParam("query") String query) {
-    return jokeService.findManyJokes(query);
+    return jokeMediator.findManyJokes(query);
   }
 
 }

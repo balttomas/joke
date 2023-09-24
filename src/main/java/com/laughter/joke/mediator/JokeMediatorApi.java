@@ -2,7 +2,7 @@ package com.laughter.joke.mediator;
 
 import java.util.List;
 
-public interface JokesMediatorApi {
+public interface JokeMediatorApi {
 
   String findRandomJoke();
 

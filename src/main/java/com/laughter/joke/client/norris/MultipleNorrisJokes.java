@@ -2,6 +2,7 @@ package com.laughter.joke.client.norris;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.laughter.joke.base.Joke;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class MultipleNorrisJokes implements Joke {
 
   private int total;
-  private List<NorrisJoke> result;
+  private List<NorrisJoke> result = new ArrayList<>();
 
   @Override
   @JsonIgnore

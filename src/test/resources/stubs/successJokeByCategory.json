@@ -1,0 +1,11 @@
+{
+  "categories": [
+    "categoryName"
+  ],
+  "created_at": "2020-01-05 13:42:19.104863",
+  "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+  "id": "yk-jfmgetniu0dwr3qqcgg",
+  "updated_at": "2020-01-05 13:42:19.104863",
+  "url": "https://api.chucknorris.io/jokes/yk-jfmgetniu0dwr3qqcgg",
+  "value": "Chuck Norris doesn't do Burn Down charts, he does Smack Down charts."
+}

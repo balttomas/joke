@@ -17,10 +17,10 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-public class JokeServiceTest {
+class JokeServiceTest {
 
   @InjectMocks
-  private JokeService service;
+  private JokeMediator service;
 
   @Mock
   private ClientApi chuckNorrisClient;

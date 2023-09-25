@@ -1,7 +1,7 @@
 package com.laughter.joke.client.norris;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.laughter.joke.base.Joke;
+import com.laughter.joke.client.Joke;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;

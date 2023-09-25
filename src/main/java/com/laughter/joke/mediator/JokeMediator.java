@@ -1,6 +1,6 @@
 package com.laughter.joke.mediator;
 
-import com.laughter.joke.base.ClientApi;
+import com.laughter.joke.client.ClientApi;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import java.util.Arrays;

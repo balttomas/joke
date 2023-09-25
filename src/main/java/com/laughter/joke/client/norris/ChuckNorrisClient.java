@@ -1,6 +1,6 @@
 package com.laughter.joke.client.norris;
 
-import com.laughter.joke.base.ClientApi;
+import com.laughter.joke.client.ClientApi;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

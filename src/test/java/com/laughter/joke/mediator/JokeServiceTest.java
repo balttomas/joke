@@ -5,8 +5,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import com.laughter.joke.base.ClientApi;
-import com.laughter.joke.base.Joke;
+import com.laughter.joke.client.ClientApi;
+import com.laughter.joke.client.Joke;
 import com.laughter.joke.client.norris.MultipleNorrisJokes;
 import com.laughter.joke.client.norris.NorrisJoke;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.laughter.joke.base;
+package com.laughter.joke.client;
 
 public interface ClientApi {
 

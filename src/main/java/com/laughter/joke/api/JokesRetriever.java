@@ -1,5 +1,6 @@
 package com.laughter.joke.api;
 
+import com.laughter.joke.base.Joke;
 import com.laughter.joke.mediator.JokeMediatorApi;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,17 +21,17 @@ public class JokesRetriever {
   private final JokeMediatorApi jokeMediator;
 
   @GetMapping(value = "/random")
-  public String findJoke() {
+  public Joke findJoke() {
     return jokeMediator.findRandomJoke();
   }
 
   @GetMapping(value = "/random/{category}")
-  public String findJokeByCategory(@PathVariable("category") String category) {
+  public Joke findJokeByCategory(@PathVariable("category") String category) {
     return jokeMediator.findRandomJokeByCategory(category);
   }
 
   @GetMapping(value = "/search")
-  public List<String> findJokesByQuery(@RequestParam("query") String query) {
+  public List<Joke> findJokesByQuery(@RequestParam("query") String query) {
     return jokeMediator.findManyJokes(query);
   }
 

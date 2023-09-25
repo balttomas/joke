@@ -5,8 +5,9 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import com.laughter.joke.base.Joke;
 import com.laughter.joke.client.ClientApi;
-import com.laughter.joke.client.Joke;
+import com.laughter.joke.client.ClientJoke;
 import com.laughter.joke.client.norris.MultipleNorrisJokes;
 import com.laughter.joke.client.norris.NorrisJoke;
 import java.util.List;
@@ -33,10 +34,11 @@ class JokeServiceTest {
         NorrisJoke.builder().value(jokeText).build()
     );
 
-    String result = service.findRandomJokeByCategory(jokeCategory);
+    Joke result = service.findRandomJokeByCategory(jokeCategory);
 
     verify(chuckNorrisClient, times(1)).findRandomJokeByCategory(jokeCategory);
-    assertThat(result)
+    assertThat(result).isNotNull();
+    assertThat(result.getJoke())
         .isNotBlank()
         .isEqualTo(jokeText);
   }
@@ -48,10 +50,11 @@ class JokeServiceTest {
         NorrisJoke.builder().value(jokeText).build()
     );
 
-    String result = service.findRandomJoke();
+    Joke result = service.findRandomJoke();
 
     verify(chuckNorrisClient, times(1)).findRandomJoke();
-    assertThat(result)
+    assertThat(result).isNotNull();
+    assertThat(result.getJoke())
         .isNotBlank()
         .isEqualTo(jokeText);
   }
@@ -61,12 +64,11 @@ class JokeServiceTest {
     String filterCriteria = "mAn";
     given(chuckNorrisClient.findManyJokes(filterCriteria)).willReturn(createJokes());
 
-    List<String> result = service.findManyJokes(filterCriteria);
+    List<Joke> result = service.findManyJokes(filterCriteria);
 
     verify(chuckNorrisClient, times(1)).findManyJokes(filterCriteria);
-    assertThat(result)
-        .isNotNull()
-        .hasSize(6)
+    assertThat(result).isNotNull().hasSize(6);
+    assertThat(result.stream().map(Joke::getJoke))
         .containsExactlyInAnyOrder(
             "Funny man. Joke.",
             "Funny.maN. Joke.",
@@ -86,14 +88,14 @@ class JokeServiceTest {
     given(chuckNorrisClient.findManyJokes(filterCriteria)).willReturn(
         findJokesNotSatisfyingCriteria());
 
-    List<String> result = service.findManyJokes(filterCriteria);
+    List<Joke> result = service.findManyJokes(filterCriteria);
 
     assertThat(result)
         .isNotNull()
         .isEmpty();
   }
 
-  private Joke findJokesNotSatisfyingCriteria() {
+  private ClientJoke findJokesNotSatisfyingCriteria() {
     return MultipleNorrisJokes.builder()
         .result(List.of(NorrisJoke.builder().value("Funnyman. Joke.").build(),
             NorrisJoke.builder().value("manmanman Joke.").build(),
@@ -101,7 +103,7 @@ class JokeServiceTest {
         .total(3).build();
   }
 
-  private Joke createJokes() {
+  private ClientJoke createJokes() {
     var thirdPartyJokes = List.of(
         NorrisJoke.builder().value("Funny man. Joke.").build(),
         NorrisJoke.builder().value("Funnyman. Joke.").build(),

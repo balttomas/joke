@@ -2,10 +2,10 @@ package com.laughter.joke.client;
 
 public interface ClientApi {
 
-  Joke findRandomJoke();
+  ClientJoke findRandomJoke();
 
-  Joke findRandomJokeByCategory(String category);
+  ClientJoke findRandomJokeByCategory(String category);
 
-  Joke findManyJokes(String query);
+  ClientJoke findManyJokes(String query);
 
 }

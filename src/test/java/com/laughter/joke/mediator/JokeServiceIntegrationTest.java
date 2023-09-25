@@ -14,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import com.laughter.joke.base.Joke;
 import feign.FeignException;
 import java.io.IOException;
 import java.util.Collection;
@@ -61,12 +62,13 @@ class JokeServiceIntegrationTest {
             .withBody(parseStub("stubs/successJoke.json"))
         ));
 
-    List<String> result = Stream.generate(jokeMediator::findRandomJoke).limit(INVOCATIONS_AMOUNT)
+    List<Joke> result = Stream.generate(jokeMediator::findRandomJoke).limit(INVOCATIONS_AMOUNT)
         .toList();
 
     assertThat(result)
         .isNotNull()
-        .hasSize(INVOCATIONS_AMOUNT)
+        .hasSize(INVOCATIONS_AMOUNT);
+    assertThat(result.stream().map(Joke::getJoke))
         .contains(
             "You're so eager for huge amount of jokes. Be patient. Wait a second and try receiving some again.",
             "Chuck Norris went on a hike up mount...");
@@ -83,12 +85,13 @@ class JokeServiceIntegrationTest {
             .withBody(parseStub("stubs/successJokeByCategory.json"))
         ));
 
-    List<String> result = Stream.generate(() -> jokeMediator.findRandomJokeByCategory(categoryName))
+    List<Joke> result = Stream.generate(() -> jokeMediator.findRandomJokeByCategory(categoryName))
         .limit(INVOCATIONS_AMOUNT).toList();
 
     assertThat(result)
         .isNotNull()
-        .hasSize(INVOCATIONS_AMOUNT)
+        .hasSize(INVOCATIONS_AMOUNT);
+    assertThat(result.stream().map(Joke::getJoke))
         .contains(
             String.format(
                 "Jokes of type %s are so awesome. Be patient. Wait a second and try receiving some again.",
@@ -107,11 +110,12 @@ class JokeServiceIntegrationTest {
             .withBody(parseStub("stubs/successSearchForJokes.json"))
         ));
 
-    List<String> result = Stream.generate(() -> jokeMediator.findManyJokes(queryValue))
+    List<Joke> result = Stream.generate(() -> jokeMediator.findManyJokes(queryValue))
         .limit(INVOCATIONS_AMOUNT).flatMap(Collection::stream).toList();
 
     assertThat(result)
-        .isNotNull()
+        .isNotNull();
+    assertThat(result.stream().map(Joke::getJoke))
         .contains(
             "Sadaharu Oh holds the world record with 868 home runs in his career. Chuck Norris could break that record in a single season.",
             "Like many other magnificient creatures, Chuck Norris has his own mating season, we know this season better as winter",

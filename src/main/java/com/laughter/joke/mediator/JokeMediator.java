@@ -1,5 +1,6 @@
 package com.laughter.joke.mediator;
 
+import com.laughter.joke.base.Joke;
 import com.laughter.joke.client.ClientApi;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
@@ -25,24 +26,26 @@ public class JokeMediator implements JokeMediatorApi {
 
   @Override
   @RateLimiter(name = "norris", fallbackMethod = "findFallbackRandomJoke")
-  public String findRandomJoke() {
-    return chuckNorrisClient.findRandomJoke().getJokeContent().get(0);
+  public Joke findRandomJoke() {
+    return Joke.builder().joke(
+        chuckNorrisClient.findRandomJoke().getJokeContent().get(0)).build();
   }
 
   @SuppressWarnings("unused")
-  private String findFallbackRandomJoke(RequestNotPermitted notPermitted) {
+  private Joke findFallbackRandomJoke(RequestNotPermitted notPermitted) {
     log.warn("API Rate limit has exceeded. Switching to fallback.", notPermitted);
     return jokeFallback.findRandomJoke();
   }
 
   @Override
   @RateLimiter(name = "norris", fallbackMethod = "findFallbackRandomJokeByCategory")
-  public String findRandomJokeByCategory(String category) {
-    return chuckNorrisClient.findRandomJokeByCategory(category).getJokeContent().get(0);
+  public Joke findRandomJokeByCategory(String category) {
+    return Joke.builder()
+        .joke(chuckNorrisClient.findRandomJokeByCategory(category).getJokeContent().get(0)).build();
   }
 
   @SuppressWarnings("unused")
-  private String findFallbackRandomJokeByCategory(String category,
+  private Joke findFallbackRandomJokeByCategory(String category,
       RequestNotPermitted notPermitted) {
     log.warn("API Rate limit has exceeded when searching by category. Switching to fallback.",
         notPermitted);
@@ -51,13 +54,16 @@ public class JokeMediator implements JokeMediatorApi {
 
   @Override
   @RateLimiter(name = "norris", fallbackMethod = "findFallbackManyJokes")
-  public List<String> findManyJokes(String query) {
+  public List<Joke> findManyJokes(String query) {
     List<String> jokes = chuckNorrisClient.findManyJokes(query).getJokeContent();
-    return jokes.stream().filter(joke -> satisfiesQuery(joke, query)).toList();
+    List<String> filteredOutJokes = jokes.stream().filter(joke -> satisfiesQuery(joke, query))
+        .toList();
+    return filteredOutJokes.stream().map(jokeText -> Joke.builder().joke(jokeText).build())
+        .toList();
   }
 
   @SuppressWarnings("unused")
-  private List<String> findFallbackManyJokes(String query, RequestNotPermitted notPermitted) {
+  private List<Joke> findFallbackManyJokes(String query, RequestNotPermitted notPermitted) {
     log.warn("API Rate limit has exceeded when searching for many jokes. Switching to fallback.",
         notPermitted);
     return jokeFallback.findManyJokes(query);

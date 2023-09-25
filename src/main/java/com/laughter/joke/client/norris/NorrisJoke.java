@@ -2,7 +2,7 @@ package com.laughter.joke.client.norris;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.laughter.joke.client.Joke;
+import com.laughter.joke.client.ClientJoke;
 import java.util.Collections;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class NorrisJoke implements Joke {
+public class NorrisJoke implements ClientJoke {
 
   private List<String> categories;
   @JsonAlias("icon_url")

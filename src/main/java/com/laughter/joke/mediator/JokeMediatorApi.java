@@ -1,13 +1,14 @@
 package com.laughter.joke.mediator;
 
+import com.laughter.joke.base.Joke;
 import java.util.List;
 
 public interface JokeMediatorApi {
 
-  String findRandomJoke();
+  Joke findRandomJoke();
 
-  String findRandomJokeByCategory(String category);
+  Joke findRandomJokeByCategory(String category);
 
-  List<String> findManyJokes(String query);
+  List<Joke> findManyJokes(String query);
 
 }

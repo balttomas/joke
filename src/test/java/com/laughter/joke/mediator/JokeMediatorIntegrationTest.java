@@ -32,7 +32,7 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @WireMockTest(httpPort = 9561)
-class JokeServiceIntegrationTest {
+class JokeMediatorIntegrationTest {
 
   private static final String RANDOM_JOKE_URL = "/random";
   private static final String SEARCH_JOKES_URL = "/search";

@@ -32,13 +32,11 @@ docker run -p 8080:8080 jokes/point
 http://localhost:8080
 ```
 ##Resilience4j
-###Ratelimiters
+###Ratelimiters and events
 ```
 http://localhost:8080/actuator/ratelimiters
-```
-###Ratelimiting events
-```
 http://localhost:8080/actuator/ratelimiterevents
+http://localhost:8080/actuator/retries
 ```
 
 ### Find random Chuck Norris joke:

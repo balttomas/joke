@@ -10,7 +10,9 @@ import com.laughter.joke.client.ClientApi;
 import com.laughter.joke.client.ClientJoke;
 import com.laughter.joke.client.norris.MultipleNorrisJokes;
 import com.laughter.joke.client.norris.NorrisJoke;
+import com.laughter.joke.exception.JokeNotFoundException;
 import java.util.List;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,13 +20,18 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-class JokeServiceTest {
+class JokeMediatorTest {
 
   @InjectMocks
   private JokeMediator service;
 
   @Mock
   private ClientApi chuckNorrisClient;
+
+  @Test
+  void shouldFailWithExpectedExceptionWhenMediatorApiRetrievesNothing() {
+    Assertions.assertThrows(JokeNotFoundException.class, () -> service.findRandomJokeByCategory("cat"));
+  }
 
   @Test
   void shouldFindRandomSingleJokeByCategory() {
@@ -61,7 +68,7 @@ class JokeServiceTest {
 
   @Test
   void shouldRetrieveMultipleJokesFilteredOutByQuery() {
-    String filterCriteria = "mAn";
+    String filterCriteria = "mAn ";
     given(chuckNorrisClient.findManyJokes(filterCriteria)).willReturn(createJokes());
 
     List<Joke> result = service.findManyJokes(filterCriteria);
